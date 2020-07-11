@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next'
 import React, { useState, useEffect } from 'react'
 import MainLayout from '@layouts/main'
-import '../assets/styles.less'
+import '@assets/styles.less'
 import SearchField from '@layouts/searchfield'
 
 

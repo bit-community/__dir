@@ -1,19 +1,15 @@
-import dynamic from 'next/dynamic'
 import Link from 'next/link'
-// import Link from 'next/link'
 import { Layout } from 'antd'
-import('antd/lib/menu/style/index')
 import { Menu } from 'antd'
-import { TableOutlined, MenuFoldOutlined } from '@ant-design/icons'
+import { TableOutlined } from '@ant-design/icons'
 
-import { Route, MenuDataItem } from '@ant-design/pro-layout/lib/typings'
 
 // const MenuItem = dynamic(() => import('antd/lib/menu/MenuItem'))
 const MenuItem = Menu.Item
 const { Header, Content } = Layout;
 
 
-const ROUTES: Route = {
+const ROUTES = {
   path: '/',
   routes: [
     {
@@ -60,7 +56,7 @@ export default function Main({ children }) {
     <Header
     >
       <div className="logo" />
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+      <Menu theme="light" mode="horizontal" defaultSelectedKeys={['2']}>
         {menuItemRender()}
       </Menu>
 

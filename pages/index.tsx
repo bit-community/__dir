@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Row, Col, Button, Input } from 'antd'
 import { Typography } from 'antd'
-import '../assets/styles.less'
+import '@assets/styles.less'
 import MainLayout from '@layouts/main'
 import Block from '@layouts/block'
 
