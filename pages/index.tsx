@@ -1,67 +1,47 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { Row, Col, Button, Input } from 'antd'
-import { Typography } from 'antd'
+import Airtable from 'airtable'
 import '@assets/styles.less'
-import MainLayout from '@layouts/main'
-import Block from '@layouts/block'
 
-interface ISchema {
-    lat?: number,
-    lng?: number,
-    radius?: number
-}
+// == View Layer Components ====
+import { Typography } from 'antd'
+import MainLayout from '@layouts/main'
 const { Title } = Typography
 
 
 export default function Home(): JSX.Element {
     const [inputValue, setInputValue] = useState<number>(2);
-    const [schema, setSchema] = useState<ISchema>({})
     const [loading, setLoading] = useState<boolean>(false);
     const router = useRouter()
 
+    const base = new Airtable({ apiKey: 'keyYQGz5RC2dOKH1s' }).base('appSStf2qCCb5JWTg');
+    base('directory_db').select({
+        // Selecting the first 3 records in Baddies in Tech Directory Application:
+        maxRecords: 3,
+        view: "Baddies in Tech Directory Application"
+    }).eachPage(function page(records, fetchNextPage) {
+        // This function (`page`) will get called for each page of records.
+
+        records.forEach(function (record) {
+            console.log('Retrieved', record.fields);
+        });
+
+        // To fetch the next page of records, call `fetchNextPage`.
+        // If there are more records, `page` will get called again.
+        // If there are no more records, `done` will get called.
+        fetchNextPage();
+
+    }, function done(err) {
+        if (err) { console.error(err); return; }
+    });
 
 
-    const handlePersonalization = (): void => {
-        setLoading(true)
-        router.push({
-            pathname: '/search',
-            query: { ...schema }
-        })
-    }
-
-
-    const onChange = value => {
-        setInputValue(value)
-        setSchema(Object.assign(schema, { radius: value * 1000 }))
-    };
+    console.log(base)
 
     return (
         <MainLayout>
-            <div style={{ marginTop: '10rem' }}></div>
             <Title>Find a Baddie</Title>
 
-            <Row gutter={2}>
-
-                <Col span={24}>
-                    <Row>
-
-                        <Input
-                            min={1}
-                            max={20}
-                            style={{ margin: '0 16px 0 5px' }}
-                            value={inputValue}
-                            onChange={onChange}
-                        />
-
-                    </Row>
-                </Col>
-            </Row>
-
-            {/* ====== Embed Skeleton Blocks here ==== */}
-            <Row justify="space-between" style={{ marginTop: '5rem' }}>
-                <Block />
-            </Row>
         </MainLayout>
     )
 }
